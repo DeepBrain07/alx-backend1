@@ -34,6 +34,7 @@ class Server:
                 dataset = [row for row in reader]
             self.__dataset = dataset[1:]
 
+        print(self.__dataset[19417])
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
@@ -48,7 +49,7 @@ class Server:
         pages = index_range(page, page_size)
         pages = [x for x in range(pages[0], pages[1])]
         dataset = self.dataset()
-        if page > len(dataset):
+        if page >= len(dataset):
             return []
         counter = 0
         pages_to_return = []
