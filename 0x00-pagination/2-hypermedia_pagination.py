@@ -4,7 +4,7 @@ This defines a python class 'Server'
 """
 import csv
 import math
-from typing import List, Tuple
+from typing import List, Tuple, Dict, Union
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
@@ -58,3 +58,26 @@ class Server:
             counter += 1
 
         return pages_to_return
+
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> \
+            Dict[str, Union[str, int]]:
+        """ Returns a dictionary containing key-value pairs
+        """
+        dataset = self.dataset()
+        if page + 1 < len(dataset):
+            next_page = page + 1
+        else:
+            next_page = None
+        if page > 1:
+            prev_page = page - 1
+        else:
+            prev_page = None
+
+        get_page = self.get_page(page, page_size)
+        if get_page == []:
+            page_size = 0
+
+        dict = {'page_size': page_size, 'page': page,
+                'data': get_page, 'next_page': next_page,
+                'prev_page': prev_page, 'total_pages': len(dataset)}
+        return dict
