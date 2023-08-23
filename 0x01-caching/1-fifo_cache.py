@@ -19,7 +19,7 @@ class FIFOCache(BaseCaching):
         """
         if key and item:
             if len(list(self.cache_data.keys())) + 1 > self.MAX_ITEMS \
-                and key not in list(self.cache_data.keys()):
+                    and key not in list(self.cache_data.keys()):
                 key2 = list(self.cache_data.keys())[0]
                 del (self.cache_data[key2])
                 print(f'DISCARD: {key2}')
