@@ -18,12 +18,11 @@ class FIFOCache(BaseCaching):
         """ Add an item in the cache
         """
         if key and item:
-            if len(list(self.cache_data.keys())) + 1 > self.MAX_ITEMS \
-                and key not in list(self.cache_data.keys()):
-                key2 = list(self.cache_data.keys())[0]
-                del (self.cache_data[key2])
-                print(f'DISCARD: {key2}')
             self.cache_data[key] = item
+        if len(list(self.cache_data.keys())) > self.MAX_ITEMS:
+            key = list(self.cache_data.keys())[0]
+            del (self.cache_data[key])
+            print(f'DISCARD: {key}')
 
     def get(self, key):
         """ Get an item by key
