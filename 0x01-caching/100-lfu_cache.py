@@ -19,7 +19,8 @@ class LFUCache(BaseCaching):
         """ Add an item in the cache
         """
         if key and item:
-            if len(list(self.cache_data.keys())) + 1 > self.MAX_ITEMS:
+            if len(list(self.cache_data.keys())) + 1 > self.MAX_ITEMS \
+                    and key not in list(self.cache_data.keys()):
                 least_used = min([val for _, val in self.times_used.items()])
                 for key2, value in self.times_used.items():
                     if value == least_used:
@@ -27,6 +28,9 @@ class LFUCache(BaseCaching):
                         del self.times_used[key2]
                         print(f'DISCARD: {key2}')
                         break
+            elif len(list(self.cache_data.keys())) + 1 > self.MAX_ITEMS \
+                    and key in list(self.cache_data.keys()):
+                self.times_used[key] += 1
 
             self.cache_data[key] = item
             if key in list(self.times_used.keys()):
