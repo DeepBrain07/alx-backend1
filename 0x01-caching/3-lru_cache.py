@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-""" FIFOCache module
+""" LRUCache module
 """
 BaseCaching = __import__('base_caching').BaseCaching
 
 
-class FIFOCache(BaseCaching):
-    """ A FIFO caching system
+class LRUCache(BaseCaching):
+    """ A LRU caching system
     """
     MAX_ITEMS = BaseCaching.MAX_ITEMS
 
@@ -23,14 +23,13 @@ class FIFOCache(BaseCaching):
                 key2 = list(self.cache_data.keys())[0]
                 del (self.cache_data[key2])
                 print(f'DISCARD: {key2}')
-
-            elif len(list(self.cache_data.keys())) + 1 > self.MAX_ITEMS \
-                    and key in list(self.cache_data.keys()):
-                del self.cache_data[key]
             self.cache_data[key] = item
 
     def get(self, key):
         """ Get an item by key
         """
-        if key:
+        if key in list(self.cache_data.keys()):
+            item = self.cache_data[key]
+            del self.cache_data[key]
+            self.cache_data[key] = item
             return self.cache_data.get(key)
